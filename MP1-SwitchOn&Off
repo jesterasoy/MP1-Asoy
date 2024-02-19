@@ -16,6 +16,10 @@ export default function App() {
   }
   return (
     <SafeAreaView style={{flex: 1, justifyContent: 'center', backgroundColor: On ? 'yellow' : 'black'}}>
+      <View style={{ alignItems: 'center'}} >
+        <Text style={[styles.text, { color: On ? 'black' : 'white' }]}>AMC MP1: {On ? 'On' : 'Off'}</Text>
+          </View>
+
       <Card style={styles.card}>
 
 {On ?
