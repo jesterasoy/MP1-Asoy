@@ -1,0 +1,100 @@
+import React, { useState } from 'react';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Text,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+
+export default function App() {
+  const [inputtedText, setinputtedText] = useState('');
+
+  const [todo, setTodo] = useState([]);
+
+  function todoHandler(enteredTodo) {
+    setinputtedText(enteredTodo);
+  }
+
+  function newTodo() {
+    setTodo((theTodo) => [
+      ...theTodo,
+      {
+        id: Math.random().toString(),
+        value: inputtedText,
+        backgroundColor: randomBgcol(),
+      },
+    ]);
+
+    setinputtedText('');
+  }
+
+  function randomBgcol() {
+    const ranCOl = Math.floor(Math.random() * 16777215).toString(16);
+    return '#' + ranCOl;
+  }
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.texttodo}
+          placeholder="My Todo-List"
+          onChangeText={todoHandler}
+          value={inputtedText}
+        />
+        <TouchableOpacity
+          style={{ backgroundColor: 'red', padding: 10, borderRadius: 5 }}
+          onPress={newTodo}>
+          <Text style={{ color: 'white' }}>Add Todo</Text>
+        </TouchableOpacity>
+      </View>
+
+      <FlatList
+        data={todo}
+        renderItem={({ item }) => (
+          <View
+            style={[
+              styles.goalsContainer,
+              { backgroundColor: item.backgroundColor },
+            ]}>
+            <Text style={styles.item}>&#8226; {item.value}</Text>
+          </View>
+        )}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 50,
+    paddingHorizontal: 16,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingBottom: 24,
+    borderBottomWidth: 1,
+  },
+  texttodo: {
+    borderWidth: 1,
+    width: '70%',
+    marginRight: 8,
+    padding: 8,
+    borderRadius: 5,
+  },
+  goalsContainer: {
+    paddingTop: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginVertical: 4,
+    borderRadius: 8,
+  },
+  item: {
+    color: 'white',
+  },
+});
